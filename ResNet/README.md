@@ -26,7 +26,7 @@ output이 x가 되도록 학습한다. 그 이유는 위 그림처럼 단순히 
 마다 **최소 gradient로 1은 갖도록 한 것이다.**
 
 ![`이미지`](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fu7iAK%2FbtqBNkDoj6y%2F2Mxa3oVsS7SfoOzNZEZGU1%2Fimg.png)   
-shotcut connection
+shortcut connection
 
 따라서 layer가 아무리 깊어져도 최소 gradient로 1이상의 값을 가지므로 gradient vanishing 문제를 해결한 것이다. 정리 하자면 아래와 같다.
 
@@ -35,3 +35,25 @@ shotcut connection
 3. F(x)+x=H(x)=x가 되도록 학습시키면 미분해도 F(x)+x의 미분값은 F(x) + 1로 최소 1이상이다.
 4. 모든 layer에서의 gradient가 1+F'(x)이므로 gradient vanishing현상을 해결했다.
 
+
+이렇게 shortcut connection으로 만든 block을 identity block이라고 한다. 그리고 ResNet은 identity block과 convolution block으로 구성되는데
+각각은 아래 그림과 같다.
+
+![`이미지`](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fcrj5v9%2FbtqBOrWkyBD%2Fyxk3PchJlnl25RRXYJ1vg0%2Fimg.png)   
+identity block
+
+![`이미지`](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbQtwY4%2FbtqBSPHVY9d%2FXLSNe8537wDXwnrXBAjJ70%2Fimg.png)   
+convolution block
+
+단순히 identity block은 이전까지 설명했듯이 네트워크의 output F(x)에 x를 그대로 더하는 것이고 convolution block은 x역시 1x1 convolution연산
+을 거친 후 F(x)에 더해주는 것이다. 그리고 ResNet은 이 두가지 block을 아래그림과 같이 쌓아서 구성한다.
+
+![`이미지`](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb5HQOH%2FbtqBNjqRUsk%2FYnxL1ai7kIa9peEYSRlQGK%2Fimg.png)   
+ResNet structure
+
+ResNet의 파라미터 구조는 아래 그림과 같다.   
+
+![`이미지`](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FupZbe%2FbtqBOrva4eX%2FiNbnXbFPj1SKFfgZsDFFvk%2Fimg.png)   
+
+ResNet-101의 경우 각 stage마다 convolution block은 1개씩 존재한다.
+따라서 위 그림을 참고하면 identity block은 각 stage에서 2,3,22,2개씩 존재하는 것이다.
